@@ -26,7 +26,10 @@ public class Proposal implements Serializable {
         this.key = key;
         this.value = value;
         this.status = Status.PROMISED;
+        this.action = action;
     }
+
+    public String getAction() {return this.action;}
 
     public long getProposalNumber()
     {
