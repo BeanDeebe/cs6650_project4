@@ -34,7 +34,7 @@ public interface PaxosServerI extends KVstoreI, Remote {
      * @return the result!
      * @throws RemoteException
      */
-    Result learn(Proposal proposal) throws RemoteException;
+    String learn(Proposal proposal) throws RemoteException;
 
     /**
      * Tries to recover a copy of the KVstore from another node that resides at the

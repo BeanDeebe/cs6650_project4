@@ -5,46 +5,79 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Proposal implements Serializable {
-    private static final long serialVersionUTD = 1L;
+    private static long serialVersionUTD = 1L;
     private long id;
-    private KeyValueOperation operation;
+    private String key;
+    private String value;
 
-    public Proposal(long id, KeyValueOperation operation)
-    {
-        this.id = id;
-        this.operation = operation;
+    public enum Status {
+        PROMISED,
+        ACCEPTED,
+        REJECTED
     }
 
-    public long getId()
+    private Status status;
+    private String action;
+
+
+    public Proposal(String key, String value, String action)
+    {
+        this.id = generateID();
+        this.key = key;
+        this.value = value;
+        this.status = Status.PROMISED;
+    }
+
+    public long getProposalNumber()
     {
         return id;
     }
 
-    public KeyValueOperation getOperation()
+    public String getKey()
     {
-        return operation;
+        return key;
     }
 
-    public void setId(long id)
+    public void setProposalNumber(long id)
     {
         this.id = id;
     }
 
-    public void setOperation(KeyValueOperation operation)
+    public void setKey(String key)
     {
-        this.operation = operation;
+        this.key = key;
     }
 
-    public static synchronized Proposal generateProposal(KeyValueOperation operation)
-    {
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+    @Override
+    public String toString() {
+        return "Proposal{" +
+                "proposalNumber=" + id +
+                ", key='" + key + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
+
+    public static long generateID() {
         String sid = new SimpleDateFormat("HHmmssSSS").format(new Date());
-        Proposal proposal = new Proposal(Integer.parseInt(sid), operation);
-        try
-        {
-            Thread.sleep(1);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int sidNum = Integer.parseInt(sid);
+
+        if (sidNum == serialVersionUTD) {
+            sidNum++;
         }
-        return proposal;
+        serialVersionUTD = sidNum;
+        System.out.println("generateID() call: " + sidNum);
+        return sidNum;
+    }
+
+
+    public Status getStatus() {
+        return status;
     }
 }
